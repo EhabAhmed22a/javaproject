@@ -21,6 +21,14 @@ abstract public class Employee {
 		this.salary = newSalary;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	public int getAge() {
+		return this.age;
+	}
+	
+	
 	//----------------------------------------------------//
 
 }

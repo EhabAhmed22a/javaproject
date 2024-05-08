@@ -2,11 +2,9 @@ package javaapplication4;
 
 import java.util.LinkedList;
 
-public class Ingredient implements Sellable, Comparable<Sellable> {
+public class Ingredient extends sellable {
 //	here the name of the Ingredient Objects is the name of ingredient
 	LinkedList<Supplier> suppliers = new LinkedList<>();
-	private int quantity;
-	private float price;
 	
 	 //------------------------------------------------------//
 	
@@ -17,21 +15,6 @@ public class Ingredient implements Sellable, Comparable<Sellable> {
 	
 	 //------------------------------------------------------//
 	
-        @Override
-	public int getQuantity() {
-		return this.quantity;
-	}
-	
-        @Override
-	public float getPrice() {return this.price;}
-	
-        @Override
-	public void changePrice(float newPrice) {
-		this.price = newPrice;
-		
-	}
-	
-	 //------------------------------------------------------//
 	
 	public void addSupplier(Supplier supplier){
 		this.suppliers.add(supplier);
@@ -45,13 +28,5 @@ public class Ingredient implements Sellable, Comparable<Sellable> {
 	
 	 //------------------------------------------------------//
 	
-        @Override
-	public int compareTo(Sellable other) {
-	       if(this.getPrice() > other.getPrice())
-	    	   return 1;
-	       else if (this.getPrice() == other.getPrice())
-	    	   return 0;
-	       return -1;
-	}
 	
 }

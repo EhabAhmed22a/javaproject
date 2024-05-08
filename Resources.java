@@ -1,8 +1,6 @@
-package javaapplication4;
-
 import java.util.LinkedList;
 
-public class Resources {
+public  class Resources {
 	 
 	 private static float money;
 	 
@@ -12,55 +10,91 @@ public class Resources {
 	 
 	 //------------------------------------------------------//
 	 
-	 public void addSupplier(Supplier supplier){
+	 public static void addSupplier(Supplier supplier){
 			suppliers.add(supplier);
-	
-			suppliers.sort(null);
 	}
 	
-	public void removeSupplier(Supplier supplier){
+	public static void removeSupplier(Supplier supplier){
 		suppliers.remove(supplier);
-		suppliers.sort(null);
 	}
 	
 	 //------------------------------------------------------//
 	
-	public void addEmployee(Employee employee){
+	public static void addEmployee(Employee employee){
 		employees.add(employee);
 	}
 	
-	public void removeEmployee(Employee employee){
+	public static void removeEmployee(Employee employee){
 		employees.remove(employee);
 	}
 	
 	 //------------------------------------------------------//
 	
-	public void addIngredient(Ingredient ingredient){
+	public static void addIngredient(Ingredient ingredient){
 		ingredients.add(ingredient);
 		ingredients.sort(null);
 	}
 	
-	public void removeIngredient(Ingredient Ingredient){
+	public static void removeIngredient(Ingredient Ingredient){
 		ingredients.remove(Ingredient);
 		ingredients.sort(null);
 	}
 	
+	//------------------------------------------------------//
+	
+	public static Ingredient findIngredient(String name) {
+		Ingredient searched = null;
+		for(Ingredient i : ingredients) {
+			
+			if(i.getName().contentEquals(name)) {
+				searched = i ;
+				break;
+			}
+		}
+		return searched;
+	}
+	
+	public static void takeFromStoredIngredients(LinkedList<Ingredient> ings ) {
+		//ings = ingredients
+		for(Ingredient ing : ings ) {
+			Ingredient i = findIngredient(ing.getName());
+			i.takeIngredient(ing.getQuantity());
+		}
+		
+	}
+	
 	 //------------------------------------------------------//
 	
-	public float getMoney() {
+	public static float getMoney() {
 		return money;
 	}
-	
-	public float buySomething(Sellable thing) {  
-		float amount = thing.getPrice() * thing.getQuantity() ;
-		money-=amount;
-		return amount;
+
+	public static void changeMoney(Pricable something) {
+		money += something.getPrice();
 	}
 	
-	public void importMoney(int amount) {
-		money+=amount;
+	public static void payBills( float amount ) {
+		money -= amount;
+	}
+	
+	public static void buyIngredients(LinkedList<Ingredient> ings) {
+		for(Ingredient ing : ingredients) {
+			Ingredient i = findIngredient(ing.getName());
+			i.takeIngredient(ing.getQuantity());
+			changeMoney(ing);
+		}
 	}
 	
 	 //------------------------------------------------------//
+	
+	public static float getBaseMoney() {
+		
+		float ingredientsMoney = 0;
+		for(Ingredient i : ingredients) {
+			ingredientsMoney += i.getPrice()*i.getQuantity();
+		}
+		
+		return ingredientsMoney + money;
+	}
 
 }
