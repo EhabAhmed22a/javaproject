@@ -45,6 +45,10 @@ public class FoodItem implements Sellable , Comparable<Sellable>  {
         List<FoodItem> foodItems = new ArrayList<>();
         foodItems.add(new FoodItem("Burger", 150));
         foodItems.add(new FoodItem("Pizza", 110));
+        foodItems.add(new FoodItem("Coffe", 50));
+        foodItems.add(new FoodItem("Soup", 40));
+        foodItems.add(new FoodItem("Salad", 50));
+        
         
         
         // Add more food items as needed
