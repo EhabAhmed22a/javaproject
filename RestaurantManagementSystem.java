@@ -21,7 +21,7 @@ public class RestaurantManagementSystem extends Application {
 
     // Sample username and password for login
     private Label totalPriceLabel;
-    private Date orderTime=new Date();
+    Date orderTime=null;
     private Map<FoodItem, Integer> selectedItems = new HashMap<>();
     private static final String USERNAME = "a";
     private static final String PASSWORD = "p";
@@ -67,6 +67,8 @@ public class RestaurantManagementSystem extends Application {
 
        private void tableRegistrationPage() {
     // Prompt the user to select a table
+    
+    boolean validInput = false;
     List<Table> availableTables = Table.getAvailableTables(); // Implement this method to retrieve available tables
     ChoiceDialog<Table> tableChoiceDialog = new ChoiceDialog<>(null, availableTables);
     tableChoiceDialog.setHeaderText("Select a table:");
@@ -76,16 +78,18 @@ public class RestaurantManagementSystem extends Application {
         Table selectedTable = selectedTableResult.get();
 
         // Prompt the user to input order time
+        while (!validInput){
         TextInputDialog orderTimeDialog = new TextInputDialog();
-        orderTimeDialog.setHeaderText("Enter order time (HH:mm):");
+        orderTimeDialog.setHeaderText("Enter order time (dd/MM/yyyy HH:mm):");
         Optional<String> orderTimeResult = orderTimeDialog.showAndWait();
-
+        
         if (orderTimeResult.isPresent()) {
             // Parse the order time string to Date
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+           SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             try {
-                Date orderTime = sdf.parse(orderTimeResult.get());
+                 orderTime = sdf.parse(orderTimeResult.get());
                 selectedTable.setOrderTime(orderTime);
+                validInput=true;
 
                 // Prompt the user to input the duration
                 TextInputDialog durationDialog = new TextInputDialog();
@@ -103,23 +107,29 @@ public class RestaurantManagementSystem extends Application {
                     // Handle this case as needed
                 }
             } catch (ParseException e) {
-                e.printStackTrace();
-                // Error parsing order time
-                // Handle this case as needed
-            } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Invalid input format");
+            alert.setContentText("Please enter the order time in the correct format (day/month/year HH:MM).");
+            alert.showAndWait();
+            
+        }
+            catch (NumberFormatException e) {
                 e.printStackTrace();
                 // Invalid duration input
                 // Handle this case as needed
             }
         } else {
+           
+             // Exit the method if the dialog is cancelled
             // Order time input cancelled
             // Handle this case as needed
         }
-    } else {
+        
+    // else {
         // Table selection cancelled
         // Handle this case as needed
     }
-}
+}}
  
 
     private void registerTable(int tableNumber) {
@@ -131,6 +141,7 @@ public class RestaurantManagementSystem extends Application {
     }
 
     private void menuSelectionPage() {
+         
         // Implement menu selection page
         VBox menuSelectionLayout = new VBox(10);
         menuSelectionLayout.setPadding(new Insets(20));
